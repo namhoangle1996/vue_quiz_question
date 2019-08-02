@@ -1,17 +1,52 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+      <Header/>
+      <b-container class="bv-example-row">
+        <b-row>
+          <b-col sm="6" ><QuestionBox 
+              v-if="questions.length"
+              :currentQuestion="questions[index]"  
+              :nextQuestion ="nextQuestion"
+          /></b-col>
+        </b-row>
+      </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import QuestionBox from './components/QuestionBox.vue'
+import axios from "axios";
+
+
+
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Header,
+    QuestionBox
+  },
+  data() {
+      return {
+        questions:[],
+        index: 0
+      }
+  },
+  methods: {
+    nextQuestion() {
+      this.index++;
+    }
+  },
+  mounted: function(){
+    axios.get('https://opentdb.com/api.php?amount=10&category=27&type=multiple')
+    .then(function(res){
+        return res.data;
+    })
+    .then((jsonData)=>{
+        this.questions = jsonData.results;
+        // console.log(this.questions[0]);
+    })
   }
 }
 </script>
