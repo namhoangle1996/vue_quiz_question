@@ -17,6 +17,7 @@
 import Header from './components/Header.vue'
 import QuestionBox from './components/QuestionBox.vue'
 import axios from "axios";
+// import morgan from "morgan";
 
 
 
@@ -36,15 +37,24 @@ export default {
   methods: {
     nextQuestion() {
       this.index++;
+      // console.log(this.index);
+      // console.log(this.questions.length);
+      // if (this.index == this.questions.length) {
+      //   this.index
+      //   console.log('maxed');
+      // }
+    },
+    prevQuestion() {
+      this.index--
     }
   },
   mounted: function(){
     axios.get('https://opentdb.com/api.php?amount=10&category=27&type=multiple')
     .then(function(res){
-        return res.data;
+        return res.data.results;
     })
     .then((jsonData)=>{
-        this.questions = jsonData.results;
+        this.questions = jsonData ;
         // console.log(this.questions[0]);
     })
   }
