@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-      <Header/>
+      <Header :numCorrect="numCorrect" :numTotal="numTotal" 
+      />
       <b-container class="bv-example-row">
         <b-row>
           <b-col sm="6" ><QuestionBox 
               v-if="questions.length"
               :currentQuestion="questions[index]"  
               :nextQuestion ="nextQuestion"
+              :increment ="increment"
           /></b-col>
         </b-row>
       </b-container>
@@ -31,18 +33,20 @@ export default {
   data() {
       return {
         questions:[],
-        index: 0
+        index: 0,
+        numCorrect:0,
+        numTotal : 0
       }
   },
   methods: {
     nextQuestion() {
       this.index++;
-      // console.log(this.index);
-      // console.log(this.questions.length);
-      // if (this.index == this.questions.length) {
-      //   this.index
-      //   console.log('maxed');
-      // }
+    },
+    increment(isCorrect) {
+      if(isCorrect) {
+        this.numCorrect++
+      }
+      this.numTotal++;
     },
     prevQuestion() {
       this.index--
@@ -61,7 +65,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -69,5 +73,26 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.question-box-container {
+   .jumbotron {
+     .grid-2 {
+        display: grid;
+        grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+        justify-content: center;
+        align-items: center;
+        p {
+          background: #c9d4de;
+          padding: 10px;
+          color: white;
+          font-weight: bold;
+          transition: all 0.3s ease-out;
+          &:hover {
+            background: #65a567;
+            cursor: pointer;
+          }
+        }
+     }
+   }
 }
 </style>
