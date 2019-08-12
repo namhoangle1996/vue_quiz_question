@@ -4,12 +4,14 @@
       />
       <b-container class="bv-example-row">
         <b-row>
-          <b-col sm="6" ><QuestionBox 
-              v-if="questions.length"
+          <b-col sm="6" >
+            <QuestionBox 
+               v-if="questions.length"
               :currentQuestion="questions[index]"  
               :nextQuestion ="nextQuestion"
               :increment ="increment"
-          /></b-col>
+            />
+          </b-col>
         </b-row>
       </b-container>
   </div>
@@ -22,8 +24,6 @@ import axios from "axios";
 // import morgan from "morgan";
 
 
-
-
 export default {
   name: 'app',
   components: {
@@ -32,7 +32,7 @@ export default {
   },
   data() {
       return {
-        questions:[],
+        questions: [],
         index: 0,
         numCorrect:0,
         numTotal : 0
@@ -41,6 +41,11 @@ export default {
   methods: {
     nextQuestion() {
       this.index++;
+      if (this.index == this.questions.length) {
+          console.log("maxium questions");
+          this.index-- ;
+      }
+      
     },
     increment(isCorrect) {
       if(isCorrect) {
@@ -59,7 +64,7 @@ export default {
     })
     .then((jsonData)=>{
         this.questions = jsonData ;
-        // console.log(this.questions[0]);
+        // console.log(this.questions.lengt h);
     })
   }
 }
